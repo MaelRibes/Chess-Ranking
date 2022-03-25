@@ -1,5 +1,6 @@
 import requests
 import re
+from tqdm import tqdm
 
 
 def player():
@@ -34,7 +35,7 @@ def list_elo():
     cpt = 0
 
     # Parcours differents mois :
-    for url in list_url:
+    for url in tqdm(list_url, bar_format='{desc:<5.5}{percentage:3.0f}%|{bar:50}{r_bar}'):
         u = str(url)
         req = requests.get(u)
         games = req.json()['games']
@@ -48,10 +49,6 @@ def list_elo():
                     res[1].append(game['black']['rating'])
                 res[0].append(cpt)
                 cpt += 1
-            if cpt % 2 == 0:
-                print('...')
-            else:
-                print('....')
     print("\nSuccess")
     return res
 
@@ -62,7 +59,7 @@ def list_elo_month():
     bkup = 0
 
     # Parcours differents mois :
-    for url in list_url:
+    for url in tqdm(list_url, bar_format='{desc:<5.5}{percentage:3.0f}%|{bar:50}{r_bar}'):
         u = str(url)
         req = requests.get(u)
         games = req.json()['games']
@@ -99,7 +96,6 @@ def list_elo_month():
         res[2].append(auc)
         res[1].append(moy)
         res[0].append(date)
-        print('.')
     print("\nSuccess")
     return res
 
